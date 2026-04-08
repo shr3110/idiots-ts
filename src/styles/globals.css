@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ──────────────────────────────────────────── */
+:root {
+  /* Golden Ratio */
+  --phi: 1.618;
+  --phi-inv: 0.618;
+
+  /* Colors */
+  --color-primary: #1F1D1B;
+  --color-surface: #2A2825;
+  --color-surface-raised: #333130;
+  --color-border: #3A3836;
+  --color-secondary: #7D7D7D;
+  --color-accent: #B0B0B0;
+  --color-gold: #C9A84C;
+  --color-gold-dim: #8B7335;
+  --color-text: #E8E4E0;
+  --color-text-muted: #9A9590;
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing (phi scale) */
+  --space-xs: 0.382rem;
+  --space-sm: 0.618rem;
+  --space-md: 1rem;
+  --space-lg: 1.618rem;
+  --space-xl: 2.618rem;
+  --space-2xl: 4.236rem;
+  --space-3xl: 6.854rem;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 32px rgba(201, 168, 76, 0.12);
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Typography ─────────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 3.875rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.375rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+
+/* ─── Feed Container (Instagram-style) ──────────────────────────────── */
+.feed-container {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.feed-item {
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Golden Ratio Card ──────────────────────────────────────────────── */
+.card-golden {
+  aspect-ratio: 1.618 / 1;
+  max-width: 618px;
+  border-radius: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-golden:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ─── Star Rating ────────────────────────────────────────────────────── */
+.star-btn {
+  color: var(--color-border);
+  transition: color 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.star-btn:hover,
+.star-btn.active {
+  color: var(--color-gold);
+  transform: scale(1.15);
+}
+
+/* ─── Rank Badge ─────────────────────────────────────────────────────── */
+.rank-badge-1 {
+  background: linear-gradient(135deg, rgba(201,168,76,0.25), rgba(201,168,76,0.05));
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--color-gold);
+}
+
+.rank-badge-2 {
+  background: linear-gradient(135deg, rgba(176,176,176,0.2), rgba(176,176,176,0.05));
+  border: 1px solid rgba(176,176,176,0.3);
+  color: var(--color-accent);
+}
+
+.rank-badge-3 {
+  background: linear-gradient(135deg, rgba(140,100,60,0.2), rgba(140,100,60,0.05));
+  border: 1px solid rgba(140,100,60,0.3);
+  color: #CD7F32;
+}
+
+/* ─── Glass Panel ────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(42, 40, 37, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(58, 56, 54, 0.6);
+}
+
+/* ─── Noise Texture ──────────────────────────────────────────────────── */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+/* ─── Input Styles ───────────────────────────────────────────────────── */
+.input-base {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-base:focus {
+  border-color: var(--color-gold-dim);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+}
+
+.input-base::placeholder {
+  color: var(--color-secondary);
+}
+
+/* ─── Button Variants ────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--color-gold);
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 0.75rem 1.618rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  padding: 0.618rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* ─── Golden Spiral Animation ────────────────────────────────────────── */
+@keyframes golden-pulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.02); }
+}
+
+.golden-spiral {
+  animation: golden-pulse 6s ease-in-out infinite;
+}
+
+/* ─── Loading Skeleton ───────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-surface-raised) 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ─── Tag Pills ──────────────────────────────────────────────────────── */
+.tag-pill {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  padding: 0.25rem 0.618rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+/* ─── Realtime Indicator ─────────────────────────────────────────────── */
+@keyframes ping-gold {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+.realtime-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+}
+
+.realtime-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  border-radius: 50%;
+  animation: ping-gold 1.5s ease-in-out infinite;
+}
+
+.realtime-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  border-radius: 50%;
+}
+
+/* ─── Mobile Feed Navigation ─────────────────────────────────────────── */
+.feed-nav-btn {
+  position: fixed;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(42, 40, 37, 0.9);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background 0.2s, transform 0.2s;
+  z-index: 50;
+}
+
+.feed-nav-btn:hover {
+  background: var(--color-surface-raised);
+  transform: scale(1.05);
+}
